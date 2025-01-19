@@ -62,7 +62,7 @@ if input_type == "Upload CSV":
                 inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
                 outputs = model(**inputs)
                 probs = softmax(outputs.logits.detach().numpy(), axis=1)
-                res[i] = {'text': text, 'negative': probs[0][0], 'neutral': probs[0][1], 'positive': probs[0][2]}
+                res[i] = {'text': text, 'negative': float(probs[0][0]), 'neutral': float(probs[0][1]), 'positive': float(probs[0][2])}
             st.write("Sentiment analysis completed.")
             st.write(pd.DataFrame(res).T)
 
@@ -89,4 +89,4 @@ if input_type == "Enter Text":
             probs = outputs[0][0].detach().numpy()
             probs = softmax(probs)
             st.write("Sentiment analysis completed using RoBERTa.")
-            st.write({"negative": probs[0], "neutral": probs[1], "positive": probs[2]})
+            st.write({"negative": float(probs[0]), "neutral": float(probs[1]), "positive": float(probs[2])})
