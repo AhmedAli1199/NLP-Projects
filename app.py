@@ -46,25 +46,25 @@ if input_type == "Upload CSV":
             st.write("Data loaded successfully.")
         else:
             st.write("Please enter a valid column name.")
-    
-    if st.button("Perform Sentiment Analysis Using Vader"):
-        res = {}
-        sia = SentimentIntensityAnalyzer()
-        for i, text in text_data.items():
-            sentiment_score = sia.polarity_scores(text)
-            res[i] = {'text': text, **sentiment_score}
-        st.write("Sentiment analysis completed.")
-        st.write(pd.DataFrame(res).T)
+    if df is not None and column_name in file_columns:
+        if st.button("Perform Sentiment Analysis Using Vader"):
+            res = {}
+            sia = SentimentIntensityAnalyzer()
+            for i, text in text_data.items():
+                sentiment_score = sia.polarity_scores(text)
+                res[i] = {'text': text, **sentiment_score}
+            st.write("Sentiment analysis completed.")
+            st.write(pd.DataFrame(res).T)
 
-    if st.button("Perform Sentiment Analysis Using RoBERTa"):
-        res = {}
-        for i, text in text_data.items():
-            inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
-            outputs = model(**inputs)
-            probs = softmax(outputs.logits.detach().numpy(), axis=1)
-            res[i] = {'text': text, 'negative': probs[0][0], 'neutral': probs[0][1], 'positive': probs[0][2]}
-        st.write("Sentiment analysis completed.")
-        st.write(pd.DataFrame(res).T)
+        if st.button("Perform Sentiment Analysis Using RoBERTa"):
+            res = {}
+            for i, text in text_data.items():
+                inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
+                outputs = model(**inputs)
+                probs = softmax(outputs.logits.detach().numpy(), axis=1)
+                res[i] = {'text': text, 'negative': probs[0][0], 'neutral': probs[0][1], 'positive': probs[0][2]}
+            st.write("Sentiment analysis completed.")
+            st.write(pd.DataFrame(res).T)
 
 # Text Input for Sentiment Analysis
 if input_type == "Enter Text":
