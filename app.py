@@ -86,7 +86,7 @@ if input_type == "Enter Text":
             
             inputs = tokenizer(user_input, return_tensors="pt", max_length=512, truncation=True)
             outputs = model(**inputs)
-            probs = outputs[0][0].detach.numpy()
-            probs = softmax(probs, axis=1)
+            probs = outputs[0][0].detach().numpy()
+            probs = softmax(probs)
             st.write("Sentiment analysis completed using RoBERTa.")
-            st.write({"negative": probs[0][0], "neutral": probs[0][1], "positive": probs[0][2]})
+            st.write({"negative": probs[0], "neutral": probs[1], "positive": probs[2]})
