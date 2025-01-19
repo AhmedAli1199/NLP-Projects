@@ -1,14 +1,13 @@
 ﻿
 folium==0.17.0
 huggingface-hub==0.27.1
-numpy==1.21.0
 safetensors==0.5.2
-setuptools==69.5.1
 streamlit_folium==0.22.0
 sympy==1.13.1
 tokenizers==0.21.0
 torch==2.5.1
 transformers==4.48.0
 nltk==3.7
+
 
 
